@@ -1,0 +1,11 @@
+{
+  "name": "mozuku-bot",
+  "alias": "mozuku-bot",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "dotenv": true,
+  "engines": {
+    "node": "8.x.x"
+  }
+}

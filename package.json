@@ -16,6 +16,7 @@
   "dependencies": {
     "botkit": "^0.6.9",
     "dotenv": "^5.0.0",
+    "google-images": "^2.1.0",
     "node-fetch": "^1.7.3"
   },
   "devDependencies": {

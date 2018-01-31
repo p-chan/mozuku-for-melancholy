@@ -1,8 +1,11 @@
 const Botkit = require('botkit')
 const dotenv = require('dotenv')
+const GoogleImages = require('google-images')
 const helper = require('./helper')
 const http = require('http')
 
+
+const client = new GoogleImages(process.env.CSE_ID, process.env.CSE_KEY)
 const env = process.env.NODE_ENV || 'development'
 
 if (env === 'development') {
@@ -27,6 +30,14 @@ const bot = controller.spawn({ // eslint-disable-line
 
 controller.hears('ping', 'direct_mention', (bot, message) => {
   bot.reply(message, 'pong')
+})
+
+controller.hears('image (.+)$', 'direct_mention', (bot, message) => {
+  client.search(message.match[1])
+    .then(images => {
+      const rnd = Math.floor(Math.random() * 9)
+      bot.reply(message, images[rnd].url)
+    })
 })
 
 // Server

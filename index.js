@@ -63,6 +63,33 @@ controller.hears('anime (.+)$', 'direct_mention', (bot, message) => {
   }
 })
 
+/**
+ * 突然の死
+ */
+controller.hears('balloon', 'direct_mention', (bot, message) => {
+  bot.reply(message, generate(message))
+  function generate(message) {
+    const headerPrefix = '＿人'
+    const headerCenter = '人'
+    const headerSuffix = '人＿'
+    const bodyPrefix = '＞　'
+    const bodySuffix = '　＜'
+    const footerPrefix = '￣Y'
+    const footerCenter = '^Y'
+    const footerSuffix = '￣'
+    const renderBody = `${bodyPrefix}${message}${bodySuffix}`
+    let renderHeader = headerPrefix
+    let renderFooter = footerPrefix
+    for (let i = 0; i < message.length; i++) {
+      renderHeader += headerCenter
+      renderFooter += footerCenter
+    }
+    renderHeader += headerSuffix
+    renderFooter += footerSuffix
+    return `${renderHeader}\n${renderBody}\n${renderFooter}`
+  }
+})
+
 // Server
 
 http.createServer((req, res) => {

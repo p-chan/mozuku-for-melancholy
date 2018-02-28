@@ -66,17 +66,17 @@ controller.hears('anime (.+)$', 'direct_mention', (bot, message) => {
 /**
  * 突然の死
  */
-controller.hears('balloon', 'direct_mention', (bot, message) => {
-  bot.reply(message, generate(message))
+controller.hears('balloon (.+)$', 'direct_mention', (bot, message) => {
+  bot.reply(message, generate(message.match[1]))
   function generate(message) {
-    const headerPrefix = '＿人'
+    const headerPrefix = '```\n＿人'
     const headerCenter = '人'
     const headerSuffix = '人＿'
     const bodyPrefix = '＞　'
     const bodySuffix = '　＜'
     const footerPrefix = '￣Y'
     const footerCenter = '^Y'
-    const footerSuffix = '￣'
+    const footerSuffix = '￣\n```'
     const renderBody = `${bodyPrefix}${message}${bodySuffix}`
     let renderHeader = headerPrefix
     let renderFooter = footerPrefix

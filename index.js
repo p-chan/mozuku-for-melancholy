@@ -41,25 +41,19 @@ controller.hears('image (.+)$', 'direct_mention', (bot, message) => {
     })
 })
 
-controller.hears('anime (.+)$', 'direct_mention', (bot, message) => {
-  if (message.match[1] == 'rand') {
-    bot.reply(message, 'https://animeloop.org/api/v2/rand/loop-360p.gif')
-  } else {
-    fetch(`https://animeloop.org/api/v2/search/series?value=${message.match[1]}`)
-      .then(res => res.json())
-      .then(json => {
-        if (json.data.length) {
-          const animeId = json.data[0].id
+controller.hears('anime (.+)$', 'direct_mention', async (bot, message) => {
+  const lsitRes = await fetch(`https://animeloop.org/api/v2/search/series?value=${message.match[1]}`)
+  const listJson = await lsitRes.json()
 
-          fetch(`https://animeloop.org/api/v2/rand/loop?seriesid=${animeId}`)
-            .then(res => res.json())
-            .then(json => {
-              bot.reply(message, json.data[0].files.gif_360p)
-            })
-        } else {
-          bot.reply(message, 'Not Found')
-        }
-      })
+  if (listJson.data.length) {
+    const animeId = listJson.data[0].id
+
+    const gifRes = await fetch(`https://animeloop.org/api/v2/rand/loop?seriesid=${animeId}`)
+    const gifJson = await gifRes.json()
+
+    bot.reply(message, gifJson.data[0].files.gif_360p)
+  } else {
+    bot.reply(message, 'Not Found')
   }
 })
 

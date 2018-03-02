@@ -29,7 +29,40 @@ const bot = controller.spawn({ // eslint-disable-line
 
 // Events
 
-controller.hears('ping', 'direct_mention', (bot, message) => {
+controller.hears('ping', 'direct_mention', async (bot, message) => {
+
+  var animeTitle = 'ゆるゆり'
+
+  var query = `
+    query ($search: String) {
+      Media( search: $search) {
+        id
+      }
+    }
+  `;
+
+  var variables = {
+    search: "ゆるゆり"
+  };
+
+  var url = 'https://graphql.anilist.co',
+      options = {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+              query: query,
+              variables: variables
+          })
+      };
+
+  const anilistRes = await fetch(url, options)
+  const anilistJson = await anilistRes.json()
+
+  console.log(anilistJson)
+
   bot.reply(message, 'pong')
 })
 

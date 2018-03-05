@@ -34,7 +34,7 @@ controller.hears('ping', 'direct_mention', (bot, message) => {
 })
 
 controller.hears('image (.+)$', 'direct_mention', (bot, message) => {
-  client.search(message.match[1])
+  client.search(message.match[1], { safe: 'high' })
     .then(images => {
       const rnd = Math.floor(Math.random() * 9)
       bot.reply(message, images[rnd].url)

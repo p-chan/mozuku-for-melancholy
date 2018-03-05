@@ -33,6 +33,22 @@ controller.hears('ping', 'direct_mention', (bot, message) => {
   bot.reply(message, 'pong')
 })
 
+controller.hears('ksk (.+)$', 'direct_mention', (bot, message) => {
+  const kskNum = message.match[1] - 0
+
+  if (Number.isInteger(kskNum)) {
+    if (kskNum <= 30) {
+      for (var i = 0; i < kskNum; i++) {
+        bot.reply(message, 'ksk')
+      }
+    } else {
+      bot.reply(message, '加速しすぎだ、少年。')
+    }
+  } else {
+    bot.reply(message, 'Only num')
+  }
+})
+
 controller.hears('image (.+)$', 'direct_mention', (bot, message) => {
   client.search(message.match[1], { safe: 'high' })
     .then(images => {

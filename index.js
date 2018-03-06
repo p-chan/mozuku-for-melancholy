@@ -100,6 +100,22 @@ controller.hears('balloon (.+)$', 'direct_mention', (bot, message) => {
   }
 })
 
+controller.hears(['^del', '^remove', '^失言だ'], ['direct_mention'], (bot, message) => {
+  bot.api.channels.history({ channel: message.channel }, (err, res) => {
+    if (err) {
+      console.error(err)
+    }
+
+    var first = res.messages.find(i => i.user === bot.identity.id)
+
+    bot.api.chat.delete({ channel: message.channel, ts: first.ts }, err => {
+      if (err) {
+        console.error(err)
+      }
+    })
+  })
+})
+
 // Server
 
 http.createServer((req, res) => {

@@ -100,6 +100,14 @@ controller.hears('balloon (.+)$', 'direct_mention', (bot, message) => {
   }
 })
 
+/**
+ * random
+ */
+controller.hears('random (.+)$', 'direct_mention', (bot, message) => {
+  const arr = message.match[1].split(/[ ,]+/)
+  return arr[Math.floor(Math.random() * arr.length)]
+})
+
 controller.hears(['^del', '^remove', '^失言だ'], ['direct_mention'], (bot, message) => {
   bot.api.channels.history({ channel: message.channel }, (err, res) => {
     if (err) {
